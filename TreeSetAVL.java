@@ -172,4 +172,58 @@ public class TreeSetAVL<T extends Comparable<T>> implements Iterable<T> {
     }
   }
 
+  
+  public T floorOne(T x){
+    return recFloorOne(x, root);
+  }
+  
+  private T recFloorOne(T x, Node node){
+    if (x.compareTo(node.data) == 0)
+      return node.data;
+
+    if (x.compareTo(node.data) < 0){
+      if (node.left == null)
+        return null;
+      return recFloorOne(x, node.left);
+    }
+    else{
+      if (node.right == null){
+        return node.data;
+      }
+      if ((x.compareTo(node.right.data) < 0) && (node.right.left == null || x.compareTo(node.right.left.data) < 0))
+        return node.data;
+      return recFloorOne(x, node.right);
+    }
+  }
+
+  public T floorTwo(T x){
+    return recFloorTwo(x, root, null);
+  }
+  
+  private T recFloorTwo(T x, Node node, T val){
+    
+    if (node == null){
+      return val;
+    }
+    if (x.compareTo(node.data) == 0){
+      return node.data;
+    }
+    if (x.compareTo(node.data) > 0){
+      val = node.data;
+      return recFloorTwo(x, node.right, val);
+  }
+    else
+      return recFloorTwo(x, node.left, val);
+  }
+
+  public static void main(String[] args){
+    TreeSetAVL<Double> arbol = new TreeSetAVL<>();
+    for(double i = 0; i < 10; i++){
+        arbol.add(i);
+    }
+    System.out.println(arbol.floorOne(10.1));
+    System.out.println(arbol.floorTwo(10.1));
+
+
+}
 }
